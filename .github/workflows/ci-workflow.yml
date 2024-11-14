@@ -73,10 +73,16 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Setup SDK environment
+        run: |
+          echo "NANOS_SDK=/opt/nanos-secure-sdk" >> $GITHUB_ENV
+          echo "NANOX_SDK=/opt/nanox-secure-sdk" >> $GITHUB_ENV
+          echo "NANOSP_SDK=/opt/nanosplus-secure-sdk" >> $GITHUB_ENV
+
       - name: Build with cov-build
         run: |
           git config --global --add safe.directory /__w/app-plugin-1inch/app-plugin-1inch
-          cov-build --dir cov-int make default
+          cov-build --dir cov-int make BOLOS_SDK=$NANOS_SDK default
 
       - name: Submit the result to Coverity Scan
         run: |
